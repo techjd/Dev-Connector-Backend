@@ -234,7 +234,17 @@ router.delete('/removeMeOnline', auth, async (req, res) => {
 
 router.get('/getOnlineUser', auth, async (req, res) => {
   try {
-    const onlineUser = await OnlineUsers.find({});
+    // const onlineUser = await OnlineUsers.find({});
+    const onlineUser = await OnlineUsers.aggregate([
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'user',
+          foreignField: '_id',
+          as: 'userObj',
+        },
+      },
+    ]);
 
     res.json(onlineUser);
   } catch (err) {
