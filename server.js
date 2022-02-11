@@ -30,7 +30,7 @@ app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/posts', require('./routes/api/posts'));
 app.use('/api/profile', require('./routes/api/profile'));
 app.use('/api/chat', require('./routes/api/chat'));
-
+app.use('/api/jobs', require('./routes/api/jobs'));
 // Serve Sttaic assets in production
 
 // if (process.env.NODE_ENV === 'production') {

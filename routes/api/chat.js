@@ -50,6 +50,7 @@ router.get('/getAllConversations', auth, async (req, res) => {
           $all: [{ $elemMatch: { $eq: mongoose.Types.ObjectId(req.user.id) } }],
         },
       })
+      .sort({ date: -1 })
       .project({
         'recipientObj.password': 0,
         'recipientObj.__v': 0,
@@ -109,7 +110,17 @@ router.post('/sendMessage', auth, async (req, res) => {
                 } else {
                   if (onlineUser != null) {
                     req.io.to(onlineUser.socketId).emit('new-message', msg);
+                    res.json({
+                      msg: 'Message SuccessFully Sent When Online',
+                      response: msg,
+                    });
                     // console.log(onlineUser);
+                  } else {
+                    res.json({
+                      msg: 'Message SuccessFully Sent For Future',
+                      response: msg,
+                    });
+                    console.log(msg);
                   }
                 }
               }
@@ -130,7 +141,7 @@ router.post('/sendMessage', auth, async (req, res) => {
 // @route  GET api/chat/getAllMessages
 // @desc   Get All Messages Between Two Person
 // @access Private
-router.get('/getAllMessages', auth, async (req, res) => {
+router.post('/getAllMessages', auth, async (req, res) => {
   try {
     const messages = await Messages.aggregate([
       {

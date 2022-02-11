@@ -151,6 +151,35 @@ router.get('/user/:user_id', async (req, res) => {
   }
 });
 
+// @route GET api/profile/{query}
+// @desc SEARCH  Profile
+// @ access Private
+router.get('/:search', auth, async (req, res) => {
+  try {
+    const profi = await Profile.aggregate([
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'user',
+          foreignField: '_id',
+          as: 'userObj',
+        },
+      },
+    ]).match({
+      user: {
+        $all: [{ $elemMatch: { $regex: req.query.search, $options: '$i' } }],
+      },
+    });
+
+    // .find({ 'users.name': { $regex: req.query.search, $options: '$i' } });
+
+    res.json(profi);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route DELETE api/profile
 // @desc DELETE  profile , user & post
 // @ access Private
