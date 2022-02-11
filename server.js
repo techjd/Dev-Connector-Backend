@@ -43,7 +43,7 @@ app.use('/api/jobs', require('./routes/api/jobs'));
 //   });
 // }
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.get('/api/getMe', (req, res) => {
   console.log('Req');
