@@ -1,0 +1,9 @@
+{
+    "mongoURI": "mongodb+srv://techjd123:techjd123@devconnector-dgezg.mongodb.net/devconnector?retryWrites=true&w=majority",
+
+    "jwtSecret": "mysecrettoken",
+
+    "githubClientId": "fe605c9ba6f7be2564e9",
+
+    "githubSecretId": "e0d04ad2547fc780c52847c7300577b080be8204"
+}
